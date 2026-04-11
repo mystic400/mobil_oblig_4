@@ -22,6 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Oblig3"
+rootProject.name = "mobil_oblig_4"
 include(":app")
  

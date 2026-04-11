@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Sykkelutleie</string>
+    <string name="app_icon_description">Appikon</string>
+
+    <string name="home_title">Sykkelutleie</string>
+    <string name="start_order">Start bestilling</string>
+    <string name="exit">Avslutt</string>
+
+    <string name="customer_info_title">Dato og kundeinformasjon</string>
+    <string name="start_date">Leie fra dato</string>
+    <string name="pick_date">Velg dato</string>
+    <string name="number_of_days">Antall dager</string>
+    <string name="customer_type">Kundetype</string>
+    <string name="adult">Voksen</string>
+    <string name="child">Barn</string>
+    <string name="age_in_years">Alder i år</string>
+    <string name="height_in_cm">Høyde i cm</string>
+
+    <string name="choose_category">Velg kategori</string>
+    <string name="choose_type_model_size">Velg type, modell og størrelse</string>
+    <string name="recommended_size">Anbefalt størrelse basert på høyde</string>
+
+    <string name="summary_title">Dine valg</string>
+    <string name="bike_brand">Sykkelmerke:</string>
+    <string name="bike_model">Modell:</string>
+    <string name="electric">Elektrisk:</string>
+    <string name="size">Størrelse:</string>
+    <string name="start_date_label">Leie fra dato:</string>
+    <string name="days_label">Antall dager:</string>
+    <string name="total_price">Totalpris:</string>
+
+    <string name="payment_title">Betaling</string>
+    <string name="pay_now">Betal kr</string>
+    <string name="payment_not_implemented">Betaling er ikke implementert</string>
+
+    <string name="home">Hjem</string>
+    <string name="back">Forrige</string>
+    <string name="next">Fortsett</string>
+    <string name="pay">Betaling</string>
+
+
+    <string name="filter_all">Alle</string>
+    <string name="filter_non_electric">Ikke-elektrisk</string>
+    <string name="filter_electric">Elektrisk</string>
+
+
+    <string name="no_size_recommendation">Ingen anbefalt størrelse ennå</string>
+    <string name="frame_size_format">Rammestørrelse: %1$.1f-%2$.1f cm (%3$s)</string>
+    <string name="wheel_size_format">Hjul %1$d\", Alder: %2$d-%3$d, Høyde: %4$d-%5$d cm</string>
+
+
+    <string name="category_road">Road</string>
+    <string name="category_mountain">Mountain</string>
+    <string name="category_hybrid">Hybrid</string>
+    <string name="category_gravel">Gravel</string>
+    <string name="category_kids">KidsBike</string>
+</resources>

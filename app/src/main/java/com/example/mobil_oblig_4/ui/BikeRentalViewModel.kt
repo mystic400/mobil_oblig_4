@@ -2,118 +2,163 @@ package com.example.mobil_oblig_4.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.mobil_oblig_4.data.DataSource
+import androidx.lifecycle.viewModelScope
+import com.example.mobil_oblig_4.data.BikeRepository
 import com.example.mobil_oblig_4.model.Bike
 import com.example.mobil_oblig_4.model.BikeCategory
 import com.example.mobil_oblig_4.model.BikeSize
+import com.example.mobil_oblig_4.network.RetrofitInstance
+import com.example.mobil_oblig_4.data.NetworkBikeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.util.Date
 
-class BikeRentalViewModel : ViewModel() {
-
-    val dataSource: DataSource = DataSource()
+class BikeRentalViewModel(private val repository: BikeRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BikeRentalUiState())
     val uiState: StateFlow<BikeRentalUiState> = _uiState.asStateFlow()
 
     init {
-        refreshDerivedState(_uiState.value.customerSelection)
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                val selection = _uiState.value.customerSelection
+                refreshDerivedState(selection)
+            } catch (e: Exception) {
+                // Handle error
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
+            }
+        }
     }
 
     fun setAdult(isAdult: Boolean) {
-        val current = _uiState.value.customerSelection
-
-        val updatedSelection = if (isAdult) {
-            current.copy(
-                isAdult = true,
-                height = 175,
-                category = BikeCategory.Hybrid,
-                bikeSize = dataSource.hybridBikeSizes[2],
-                bike = dataSource.hybridBikes[0]
-            )
-        } else {
-            current.copy(
-                isAdult = false,
-                age = 6,
-                height = 120,
-                category = BikeCategory.KidsBike,
-                bikeSize = dataSource.kidsBikeSizes[2],
-                bike = dataSource.kidsBikes[0],
-                showBikesOfType = 0
-            )
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                val current = _uiState.value.customerSelection
+                val updatedSelection = if (isAdult) {
+                    val hybridBikes = repository.getHybridBikes()
+                    val hybridSizes = repository.getHybridBikeSizes()
+                    current.copy(
+                        isAdult = true,
+                        height = 175,
+                        category = BikeCategory.Hybrid,
+                        bikeSize = hybridSizes.getOrNull(2) ?: BikeSize(),
+                        bike = hybridBikes.firstOrNull() ?: current.bike
+                    )
+                } else {
+                    val kidsBikes = repository.getKidsBikes()
+                    val kidsSizes = repository.getKidsBikeSizes()
+                    current.copy(
+                        isAdult = false,
+                        age = 6,
+                        height = 120,
+                        category = BikeCategory.KidsBike,
+                        bikeSize = kidsSizes.getOrNull(2) ?: BikeSize(),
+                        bike = kidsBikes.firstOrNull() ?: current.bike,
+                        showBikesOfType = 0
+                    )
+                }
+                refreshDerivedState(updatedSelection)
+            } catch (e: Exception) {
+                // Handle error
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
+            }
         }
-
-        refreshDerivedState(updatedSelection)
     }
 
     fun setAge(ageText: String) {
         val age = ageText.toIntOrNull() ?: 6
         val updated = _uiState.value.customerSelection.copy(age = age.coerceAtLeast(1))
-        refreshDerivedState(updated)
+        viewModelScope.launch { refreshDerivedState(updated) }
     }
 
     fun setHeight(heightText: String) {
         val height = heightText.toIntOrNull() ?: if (_uiState.value.customerSelection.isAdult) 175 else 120
         val updated = _uiState.value.customerSelection.copy(height = height.coerceAtLeast(50))
-        refreshDerivedState(updated)
+        viewModelScope.launch { refreshDerivedState(updated) }
     }
 
     fun setNumberOfDays(daysText: String) {
         val days = daysText.toIntOrNull() ?: 1
         val updated = _uiState.value.customerSelection.copy(numberOfDays = days.coerceAtLeast(1))
-        refreshDerivedState(updated)
+        viewModelScope.launch { refreshDerivedState(updated) }
     }
 
     fun setStartDate(date: Date) {
         val updated = _uiState.value.customerSelection.copy(startDate = date)
-        refreshDerivedState(updated)
+        viewModelScope.launch { refreshDerivedState(updated) }
     }
 
     fun setCategory(category: BikeCategory) {
-        val sizes = getBikeSizesForCategory(category)
-        val bikes = filterBikesByType(
-            bikes = getBikesForCategory(category),
-            filter = _uiState.value.customerSelection.showBikesOfType
-        )
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                val sizes = getBikeSizesForCategory(category)
+                val allBikesInCategory = getBikesForCategory(category)
+                val bikes = filterBikesByType(
+                    bikes = allBikesInCategory,
+                    filter = _uiState.value.customerSelection.showBikesOfType
+                )
 
-        val recommended = getRecommendedSize(
-            category = category,
-            height = _uiState.value.customerSelection.height,
-            age = _uiState.value.customerSelection.age,
-            isAdult = _uiState.value.customerSelection.isAdult
-        )
+                val recommended = getRecommendedSize(
+                    category = category,
+                    height = _uiState.value.customerSelection.height,
+                    age = _uiState.value.customerSelection.age,
+                    isAdult = _uiState.value.customerSelection.isAdult
+                )
 
-        val updated = _uiState.value.customerSelection.copy(
-            category = category,
-            bikeSize = if (sizes.contains(recommended)) recommended else sizes.firstOrNull() ?: BikeSize(),
-            bike = bikes.firstOrNull() ?: getBikesForCategory(category).first()
-        )
+                val updated = _uiState.value.customerSelection.copy(
+                    category = category,
+                    bikeSize = if (sizes.contains(recommended)) recommended else sizes.firstOrNull() ?: BikeSize(),
+                    bike = bikes.firstOrNull() ?: allBikesInCategory.firstOrNull() ?: _uiState.value.customerSelection.bike
+                )
 
-        refreshDerivedState(updated)
+                refreshDerivedState(updated)
+            } catch (e: Exception) {
+                // Handle error
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
+            }
+        }
     }
 
     fun setBikeTypeFilter(filter: Int) {
         val updated = _uiState.value.customerSelection.copy(showBikesOfType = filter)
-        refreshDerivedState(updated)
+        viewModelScope.launch { refreshDerivedState(updated) }
     }
 
     fun setBikeSize(size: BikeSize) {
         val updated = _uiState.value.customerSelection.copy(bikeSize = size)
-        refreshDerivedState(updated)
+        viewModelScope.launch { refreshDerivedState(updated) }
     }
 
     fun setBike(bike: Bike) {
         val updated = _uiState.value.customerSelection.copy(bike = bike)
-        refreshDerivedState(updated)
+        viewModelScope.launch { refreshDerivedState(updated) }
     }
 
     fun resetAll() {
-        refreshDerivedState(CustomerSelection())
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true) }
+            try {
+                refreshDerivedState(CustomerSelection())
+            } finally {
+                _uiState.update { it.copy(isLoading = false) }
+            }
+        }
     }
 
-    private fun refreshDerivedState(selection: CustomerSelection) {
+    private suspend fun refreshDerivedState(selection: CustomerSelection) {
         val categories = getCategoriesForCustomer(selection.isAdult)
         val sizes = getBikeSizesForCategory(selection.category)
 
@@ -129,13 +174,13 @@ class BikeRentalViewModel : ViewModel() {
             filter = selection.showBikesOfType
         )
 
-        val finalBike = if (filteredBikes.contains(selection.bike)) {
-            selection.bike
+        val finalBike = if (filteredBikes.any { it.id == selection.bike.id }) {
+            filteredBikes.first { it.id == selection.bike.id }
         } else {
-            filteredBikes.firstOrNull() ?: getBikesForCategory(selection.category).first()
+            filteredBikes.firstOrNull() ?: getBikesForCategory(selection.category).firstOrNull() ?: selection.bike
         }
 
-        val finalSize = if (sizes.contains(selection.bikeSize)) {
+        val finalSize = if (sizes.any { it.label == selection.bikeSize.label && it.wheelSize == selection.bikeSize.wheelSize }) {
             selection.bikeSize
         } else {
             recommended
@@ -151,14 +196,16 @@ class BikeRentalViewModel : ViewModel() {
             numberOfDays = fixedSelection.numberOfDays
         )
 
-        _uiState.value = BikeRentalUiState(
-            customerSelection = fixedSelection,
-            currentCategories = categories,
-            currentBikeSizes = sizes,
-            currentBikes = filteredBikes,
-            recommendedBikeSize = recommended,
-            priceTotal = totalPrice
-        )
+        _uiState.update {
+            it.copy(
+                customerSelection = fixedSelection,
+                currentCategories = categories,
+                currentBikeSizes = sizes,
+                currentBikes = filteredBikes,
+                recommendedBikeSize = recommended,
+                priceTotal = totalPrice
+            )
+        }
     }
 
     private fun getCategoriesForCustomer(isAdult: Boolean): List<BikeCategory> {
@@ -174,23 +221,23 @@ class BikeRentalViewModel : ViewModel() {
         }
     }
 
-    private fun getBikeSizesForCategory(category: BikeCategory): List<BikeSize> {
+    private suspend fun getBikeSizesForCategory(category: BikeCategory): List<BikeSize> {
         return when (category) {
-            BikeCategory.Road -> dataSource.roadBikeSizes
-            BikeCategory.Mountain -> dataSource.mountainBikeSizes
-            BikeCategory.Hybrid -> dataSource.hybridBikeSizes
-            BikeCategory.Gravel -> dataSource.gravelBikeSizes
-            BikeCategory.KidsBike -> dataSource.kidsBikeSizes
+            BikeCategory.Road -> repository.getRoadBikeSizes()
+            BikeCategory.Mountain -> repository.getMountainBikeSizes()
+            BikeCategory.Hybrid -> repository.getHybridBikeSizes()
+            BikeCategory.Gravel -> repository.getGravelBikeSizes()
+            BikeCategory.KidsBike -> repository.getKidsBikeSizes()
         }
     }
 
-    private fun getBikesForCategory(category: BikeCategory): List<Bike> {
+    private suspend fun getBikesForCategory(category: BikeCategory): List<Bike> {
         return when (category) {
-            BikeCategory.Road -> dataSource.roadBikes
-            BikeCategory.Mountain -> dataSource.mountainBikes
-            BikeCategory.Hybrid -> dataSource.hybridBikes
-            BikeCategory.Gravel -> dataSource.gravelBikes
-            BikeCategory.KidsBike -> dataSource.kidsBikes
+            BikeCategory.Road -> repository.getRoadBikes()
+            BikeCategory.Mountain -> repository.getMountainBikes()
+            BikeCategory.Hybrid -> repository.getHybridBikes()
+            BikeCategory.Gravel -> repository.getGravelBikes()
+            BikeCategory.KidsBike -> repository.getKidsBikes()
         }
     }
 
@@ -202,7 +249,7 @@ class BikeRentalViewModel : ViewModel() {
         }
     }
 
-    private fun getRecommendedSize(
+    private suspend fun getRecommendedSize(
         category: BikeCategory,
         height: Int,
         age: Int,
@@ -215,11 +262,11 @@ class BikeRentalViewModel : ViewModel() {
         return if (!isAdult || category == BikeCategory.KidsBike) {
             sizes.firstOrNull {
                 height in it.heightFrom..it.heightTo || age in it.ageFrom..it.ageTo
-            } ?: sizes.last()
+            } ?: sizes.lastOrNull() ?: BikeSize()
         } else {
             sizes.firstOrNull {
                 height in it.heightFrom..it.heightTo
-            } ?: sizes.last()
+            } ?: sizes.lastOrNull() ?: BikeSize()
         }
     }
 
@@ -227,7 +274,8 @@ class BikeRentalViewModel : ViewModel() {
         val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return BikeRentalViewModel() as T
+                val repository = NetworkBikeRepository(RetrofitInstance.api)
+                return BikeRentalViewModel(repository) as T
             }
         }
     }

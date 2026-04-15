@@ -1,9 +1,9 @@
 package com.example.mobil_oblig_4.ui
 
-import com.example.mobil_oblig_4.data.DataSource
 import com.example.mobil_oblig_4.model.Bike
 import com.example.mobil_oblig_4.model.BikeCategory
 import com.example.mobil_oblig_4.model.BikeSize
+import com.example.mobil_oblig_4.model.Brand
 import java.util.Date
 
 /**
@@ -22,19 +22,29 @@ data class BikeRentalUiState(
     val recommendedBikeSize: BikeSize = BikeSize(),
     // Prisen endres etter hvert som brukeren gjør valg i de ulike skjermbildene:
     val priceTotal: Double = 0.0,
+    val isLoading: Boolean = false
 )
 
 /**
  * Hjelpeklasse til BikeRentalUiState som inneholder alle valg som brukeren gjør i de ulike skjermbildene.
  */
 data class CustomerSelection(
-    val isAdult: Boolean=true,
-    val age: Int=6,
+    val isAdult: Boolean = true,
+    val age: Int = 6,
     val height: Int = 175,
     val category: BikeCategory = BikeCategory.Hybrid,
-    val bikeSize: BikeSize = DataSource().hybridBikeSizes.get(2),
+    val bikeSize: BikeSize = BikeSize(),
     val startDate: Date = Date(),
     val numberOfDays: Int = 1,
     val showBikesOfType: Int = 0,    //0=Alle, 1=Vanlig, 2=Elektrisk
-    val bike: Bike = DataSource().hybridBikes[0]
+    val bike: Bike = Bike(
+        id = "",
+        bikeCategory = BikeCategory.Hybrid,
+        brandId = "",
+        brand = Brand("", "", ""),
+        brandModel = "",
+        modelYear = 0,
+        pricePerDay = 0.0,
+        imageResource = 0
+    )
 )

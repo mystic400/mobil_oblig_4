@@ -7,6 +7,7 @@ data class Bike(
     val bikeCategory: BikeCategory,
     val electric: Boolean = false,
     val brandId: Int,
+    val brand: Brand,
     val brandModel: String,
     val modelYear: Int,
     val pricePerDay: Double,

@@ -40,7 +40,7 @@ import com.example.mobil_oblig_4.model.Brand
 class DataSource {
     val brands = listOf<Brand>(
         Brand(
-            name = "Tre",
+            name = "Shrek",
             country = "USA"
         ),
         Brand(

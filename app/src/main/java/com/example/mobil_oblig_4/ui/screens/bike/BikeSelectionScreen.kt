@@ -8,9 +8,11 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -190,31 +192,45 @@ private fun bikeText(bike: Bike): String {
     return "${bike.brand.name}, ${bike.brandModel} (${bike.brand.country})"
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun sizeText(size: BikeSize, category: BikeCategory): String {
-    return if (category == BikeCategory.KidsBike) {
-        if (size.wheelSize == 0) {
-            stringResource(R.string.no_size_recommendation)
-        } else {
-            stringResource(
-                R.string.wheel_size_format,
-                size.wheelSize,
-                size.ageFrom,
-                size.ageTo,
-                size.heightFrom,
-                size.heightTo
-            )
-        }
-    } else {
-        if (size.label == "--") {
-            stringResource(R.string.no_size_recommendation)
-        } else {
-            stringResource(
-                R.string.frame_size_format,
-                size.frameSizeFrom,
-                size.frameSizeTo,
-                size.label
-            )
+fun SizeDropdown(
+    sizes: List<BikeSize>,
+    selectedSize: BikeSize,
+    category: BikeCategory,
+    onSizeSelected: (BikeSize) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+
+        TextField(
+            value = sizeText(selectedSize, category),
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Velg størrelse") },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            modifier = Modifier.menuAnchor().fillMaxWidth()
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            sizes.forEach { size ->
+                DropdownMenuItem(
+                    text = { Text(sizeText(size, category)) },
+                    onClick = {
+                        onSizeSelected(size)
+                        expanded = false
+                    }
+                )
+            }
         }
     }
 }

@@ -64,7 +64,7 @@ fun SummaryScreen(
     }
 }
 
-private fun sizeText(size: BikeSize, category: BikeCategory): String {
+fun sizeText(size: BikeSize, category: BikeCategory): String {
     return if (category == BikeCategory.KidsBike) {
         "Hjul ${size.wheelSize}\""
     } else {

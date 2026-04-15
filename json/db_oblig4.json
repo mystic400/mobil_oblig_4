@@ -1,0 +1,86 @@
+{
+  "$schema": "./node_modules/json-server/schema.json",
+  "brands": [
+    { "id": "1", "name": "Trek",         "country": "USA" },
+    { "id": "2", "name": "Specialized",  "country": "USA" },
+    { "id": "3", "name": "Giant",        "country": "Taiwan" },
+    { "id": "4", "name": "Cannondale",   "country": "USA" },
+    { "id": "5", "name": "Scott",        "country": "Switzerland" },
+    { "id": "6", "name": "Santa Cruz",   "country": "USA" },
+    { "id": "7", "name": "Bianchi",      "country": "Italy" },
+    { "id": "8", "name": "Rock Machine", "country": "USA" }
+  ],
+  "bikeCategories": [
+    { "id": "1", "name": "Road" },
+    { "id": "2", "name": "Mountain" },
+    { "id": "3", "name": "Hybrid" },
+    { "id": "4", "name": "Gravel" },
+    { "id": "5", "name": "KidsBike" }
+  ],
+  "roadBikeSizes": [
+    { "id": "1", "label": "XXS", "heightFrom": 147, "heightTo": 155, "frameSizeFrom": 47.0, "frameSizeTo": 49.0 },
+    { "id": "2", "label": "XS",  "heightFrom": 155, "heightTo": 160, "frameSizeFrom": 49.0, "frameSizeTo": 51.0 },
+    { "id": "3", "label": "S",   "heightFrom": 160, "heightTo": 165, "frameSizeFrom": 51.0, "frameSizeTo": 53.0 },
+    { "id": "4", "label": "S/M", "heightFrom": 165, "heightTo": 170, "frameSizeFrom": 53.0, "frameSizeTo": 54.0 },
+    { "id": "5", "label": "M",   "heightFrom": 170, "heightTo": 175, "frameSizeFrom": 54.0, "frameSizeTo": 55.0 },
+    { "id": "6", "label": "M/L", "heightFrom": 175, "heightTo": 180, "frameSizeFrom": 55.0, "frameSizeTo": 57.0 },
+    { "id": "7", "label": "L",   "heightFrom": 180, "heightTo": 185, "frameSizeFrom": 57.0, "frameSizeTo": 58.0 },
+    { "id": "8", "label": "XL",  "heightFrom": 185, "heightTo": 190, "frameSizeFrom": 58.0, "frameSizeTo": 60.0 },
+    { "id": "9", "label": "XXL", "heightFrom": 190, "heightTo": 196, "frameSizeFrom": 60.0, "frameSizeTo": 62.0 }
+  ],
+  "mountainBikeSizes": [
+    { "id": "1", "label": "XS", "heightFrom": 147, "heightTo": 157, "frameSizeFrom": 33.0, "frameSizeTo": 35.5 },
+    { "id": "2", "label": "S",  "heightFrom": 157, "heightTo": 168, "frameSizeFrom": 38.0, "frameSizeTo": 40.6 },
+    { "id": "3", "label": "M",  "heightFrom": 168, "heightTo": 178, "frameSizeFrom": 43.0, "frameSizeTo": 45.7 },
+    { "id": "4", "label": "L",  "heightFrom": 178, "heightTo": 185, "frameSizeFrom": 48.2, "frameSizeTo": 50.8 }
+  ],
+  "hybridBikeSizes": [
+    { "id": "1", "label": "S",   "heightFrom": 150, "heightTo": 160, "frameSizeFrom": 35.5, "frameSizeTo": 38.0 },
+    { "id": "2", "label": "S/M", "heightFrom": 160, "heightTo": 170, "frameSizeFrom": 38.0, "frameSizeTo": 40.6 },
+    { "id": "3", "label": "M",   "heightFrom": 170, "heightTo": 180, "frameSizeFrom": 43.0, "frameSizeTo": 45.7 },
+    { "id": "4", "label": "L",   "heightFrom": 180, "heightTo": 188, "frameSizeFrom": 48.2, "frameSizeTo": 50.8 },
+    { "id": "5", "label": "XL",  "heightFrom": 188, "heightTo": 196, "frameSizeFrom": 53.3, "frameSizeTo": 55.9 }
+  ],
+  "gravelBikeSizes": [
+    { "id": "1", "label": "XS/S", "heightFrom": 155, "heightTo": 163, "frameSizeFrom": 49.0, "frameSizeTo": 51.0 },
+    { "id": "2", "label": "S/M",  "heightFrom": 163, "heightTo": 170, "frameSizeFrom": 51.0, "frameSizeTo": 54.0 }
+  ],
+  "kidsBikeSizes": [
+    { "id": "1", "wheelSize": 12, "heightFrom": 86,  "heightTo": 100, "ageFrom": 2, "ageTo": 3 },
+    { "id": "2", "wheelSize": 14, "heightFrom": 100, "heightTo": 115, "ageFrom": 3, "ageTo": 5 },
+    { "id": "3", "wheelSize": 16, "heightFrom": 115, "heightTo": 130, "ageFrom": 4, "ageTo": 6 },
+    { "id": "4", "wheelSize": 18, "heightFrom": 122, "heightTo": 135, "ageFrom": 5, "ageTo": 7 },
+    { "id": "5", "wheelSize": 20, "heightFrom": 130, "heightTo": 145, "ageFrom": 6, "ageTo": 9 },
+    { "id": "6", "wheelSize": 24, "heightFrom": 145, "heightTo": 160, "ageFrom": 8, "ageTo": 12 },
+    { "id": "7", "wheelSize": 26, "heightFrom": 152, "heightTo": 165, "ageFrom": 10, "ageTo": 13 }
+  ],
+  "roadBikes": [
+    { "id": "1", "bikeCategoryId": "1", "electric": false, "brandId": "1", "brandModel": "Domane SL 6",        "modelYear": 2023, "pricePerDay": 299.99 },
+    { "id": "2", "bikeCategoryId": "1", "electric": false, "brandId": "2", "brandModel": "Tarmac SL 7",        "modelYear": 2022, "pricePerDay": 349.99 },
+    { "id": "3", "bikeCategoryId": "1", "electric": true,  "brandId": "3", "brandModel": "Defy Advanced Pro 1","modelYear": 2023, "pricePerDay": 279.99 }
+  ],
+  "mountainBikes": [
+    { "id": "1", "bikeCategoryId": "2", "electric": false, "brandId": "2", "brandModel": "Marlin 5",            "modelYear": 2023, "pricePerDay": 49.99 },
+    { "id": "2", "bikeCategoryId": "2", "electric": false, "brandId": "3", "brandModel": "Talon 3",             "modelYear": 2022, "pricePerDay": 59.99 },
+    { "id": "3", "bikeCategoryId": "2", "electric": true,  "brandId": "4", "brandModel": "Powerfly FS 4",       "modelYear": 2023, "pricePerDay": 89.99 },
+    { "id": "4", "bikeCategoryId": "2", "electric": false, "brandId": "8", "brandModel": "Vyöry 30 fatbike",    "modelYear": 2026, "pricePerDay": 398.0 }
+  ],
+  "hybridBikes": [
+    { "id": "1", "bikeCategoryId": "3", "electric": false, "brandId": "5", "brandModel": "CrossRip 2", "modelYear": 2023, "pricePerDay": 69.99 },
+    { "id": "2", "bikeCategoryId": "3", "electric": false, "brandId": "6", "brandModel": "CrossRip 3", "modelYear": 2022, "pricePerDay": 79.99 },
+    { "id": "3", "bikeCategoryId": "3", "electric": true,  "brandId": "7", "brandModel": "CrossRip 4", "modelYear": 2023, "pricePerDay": 99.99 },
+    { "id": "4", "bikeCategoryId": "3", "electric": false, "brandId": "8", "brandModel": "CrossRip 5", "modelYear": 2022, "pricePerDay": 89.99 }
+  ],
+  "gravelBikes": [
+    { "id": "1", "bikeCategoryId": "4", "electric": false, "brandId": "7", "brandModel": "Zerouno",                     "modelYear": 2023, "pricePerDay": 99.99 },
+    { "id": "2", "bikeCategoryId": "4", "electric": true,  "brandId": "1", "brandModel": "Checkpoint SL 7",             "modelYear": 2022, "pricePerDay": 119.99 },
+    { "id": "3", "bikeCategoryId": "4", "electric": false, "brandId": "8", "brandModel": "Lukk 40 Gloss Granite Green", "modelYear": 2026, "pricePerDay": 338.0 }
+  ],
+  "kidsBikes": [
+    { "id": "1", "bikeCategoryId": "5", "electric": false, "brandId": "4", "brandModel": "Precaliber 12", "modelYear": 2023, "pricePerDay": 19.99 },
+    { "id": "2", "bikeCategoryId": "5", "electric": false, "brandId": "5", "brandModel": "Precaliber 14", "modelYear": 2022, "pricePerDay": 24.99 },
+    { "id": "3", "bikeCategoryId": "5", "electric": false, "brandId": "6", "brandModel": "Precaliber 16", "modelYear": 2023, "pricePerDay": 29.99 },
+    { "id": "4", "bikeCategoryId": "5", "electric": false, "brandId": "7", "brandModel": "Precaliber 18", "modelYear": 2022, "pricePerDay": 34.99 },
+    { "id": "5", "bikeCategoryId": "5", "electric": true,  "brandId": "1", "brandModel": "Precaliber 20", "modelYear": 2023, "pricePerDay": 39.99 }
+  ]
+}

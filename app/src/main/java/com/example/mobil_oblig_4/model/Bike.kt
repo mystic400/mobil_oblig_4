@@ -3,9 +3,10 @@ package com.example.mobil_oblig_4.model
 import androidx.annotation.DrawableRes
 
 data class Bike(
+    val id: Int,
     val bikeCategory: BikeCategory,
     val electric: Boolean = false,
-    val brand: Brand,
+    val brandId: Int,
     val brandModel: String,
     val modelYear: Int,
     val pricePerDay: Double,

@@ -1,3 +1,5 @@
+package com.example.mobil_oblig_4.network
+
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

@@ -40,34 +40,42 @@ import com.example.mobil_oblig_4.model.Brand
 class DataSource {
     val brands = listOf<Brand>(
         Brand(
+            id = 1,
             name = "Trek",
             country = "USA"
         ),
         Brand(
+            id = 2,
             name = "Specialized",
             country = "USA"
         ),
         Brand(
+            id = 3,
             name = "Giant",
             country = "Taiwan"
         ),
         Brand(
+            id = 4,
             name = "Cannondale",
             country = "USA"
         ),
         Brand(
+            id = 5,
             name = "Scott",
             country = "Switzerland"
         ),
         Brand(
+            id = 6,
             name = "Santa Cruz",
             country = "USA"
         ),
         Brand(
+            id = 7,
             name = "Bianchi",
             country = "Italy"
         ),
         Brand(
+            id = 8,
             name = "Rock Machine",
             country = "USA"
         ),
@@ -276,27 +284,30 @@ class DataSource {
     // BIKES:
     val roadBikes = listOf<Bike>(
         Bike(
+            id = 1,
             bikeCategory = BikeCategory.Road,
             electric = false,
-            brand = brands[0],
+            brandId = brands[0].id,
             brandModel = "Domane SL 6",
             modelYear = 2023,
             pricePerDay = 299.99,
             imageResource = R.drawable.road_bike_24
         ),
         Bike(
+            id = 2,
             bikeCategory = BikeCategory.Road,
             electric = false,
-            brand = brands[1],
+            brandId = brands[1].id,
             brandModel = "Tarmac SL 7",
             modelYear = 2022,
             pricePerDay = 349.99,
             imageResource = R.drawable.road_bike_24
         ),
         Bike(
+            id = 3,
             bikeCategory = BikeCategory.Road,
             electric = true,
-            brand = brands[2],
+            brandId = brands[2].id,
             brandModel = "Defy Advanced Pro 1",
             modelYear = 2023,
             pricePerDay = 279.99,
@@ -305,36 +316,40 @@ class DataSource {
     )
     val mountainBikes = listOf<Bike>(
         Bike(
+            id = 4,
             bikeCategory = BikeCategory.Mountain,
             electric = false,
-            brand = brands[1],
+            brandId = brands[1].id,
             brandModel = "Marlin 5",
             modelYear = 2023,
             pricePerDay = 49.99,
             imageResource = R.drawable.mountain_bike_24
         ),
         Bike(
+            id = 5,
             bikeCategory = BikeCategory.Mountain,
             electric = false,
-            brand = brands[2],
+            brandId = brands[2].id,
             brandModel = "Talon 3",
             modelYear = 2022,
             pricePerDay = 59.99,
             imageResource = R.drawable.mountain_bike_24
         ),
         Bike(
+            id = 6,
             bikeCategory = BikeCategory.Mountain,
             electric = true,
-            brand = brands[3],
+            brandId = brands[3].id,
             brandModel = "Powerfly FS 4",
             modelYear = 2023,
             pricePerDay = 89.99,
             imageResource = R.drawable.mountain_bike_24
         ),
         Bike(
+            id = 7,
             bikeCategory = BikeCategory.Mountain,
             electric = false,
-            brand = brands[7],
+            brandId = brands[7].id,
             brandModel = "Vyöry 30 fatbike",
             modelYear = 2026,
             pricePerDay = 398.0,
@@ -343,36 +358,40 @@ class DataSource {
     )
     val hybridBikes = listOf<Bike>(
         Bike(
+            id = 8,
             bikeCategory = BikeCategory.Hybrid,
             electric = false,
-            brand = brands[4],
+            brandId = brands[4].id,
             brandModel = "CrossRip 2",
             modelYear = 2023,
             pricePerDay = 69.99,
             imageResource = R.drawable.hybrid_bike_24
         ),
         Bike(
+            id = 9,
             bikeCategory = BikeCategory.Hybrid,
             electric = false,
-            brand = brands[5],
+            brandId = brands[5].id,
             brandModel = "CrossRip 3",
             modelYear = 2022,
             pricePerDay = 79.99,
             imageResource = R.drawable.hybrid_bike_24
         ),
         Bike(
+            id = 10,
             bikeCategory = BikeCategory.Hybrid,
             electric = true,
-            brand = brands[6],
+            brandId = brands[6].id,
             brandModel = "CrossRip 4",
             modelYear = 2023,
             pricePerDay = 99.99,
             imageResource = R.drawable.hybrid_bike_24
         ),
         Bike(
+            id = 11,
             bikeCategory = BikeCategory.Hybrid,
             electric = false,
-            brand = brands[7],
+            brandId = brands[7].id,
             brandModel = "CrossRip 5",
             modelYear = 2022,
             pricePerDay = 89.99,
@@ -381,27 +400,30 @@ class DataSource {
     )
     val gravelBikes = listOf<Bike>(
         Bike(
+            id = 12,
             bikeCategory = BikeCategory.Gravel,
             electric = false,
-            brand = brands[6],
+            brandId = brands[6].id,
             brandModel = "Zerouno",
             modelYear = 2023,
             pricePerDay = 99.99,
             imageResource = R.drawable.gravel_bike_24
         ),
         Bike(
+            id = 13,
             bikeCategory = BikeCategory.Gravel,
             electric = true,
-            brand = brands[0],
+            brandId = brands[0].id,
             brandModel = "Checkpoint SL 7",
             modelYear = 2022,
             pricePerDay = 119.99,
             imageResource = R.drawable.gravel_bike_24
         ),
         Bike(
+            id = 14,
             bikeCategory = BikeCategory.Gravel,
             electric = false,
-            brand = brands[7],
+            brandId = brands[7].id,
             brandModel = "Lukk 40 Gloss Granite Green",
             modelYear = 2026,
             pricePerDay = 338.0,
@@ -410,45 +432,50 @@ class DataSource {
     )
     val kidsBikes = listOf<Bike> (
         Bike(
+            id = 15,
             bikeCategory = BikeCategory.KidsBike,
             electric = false,
-            brand = brands[3],
+            brandId = brands[3].id,
             brandModel = "Precaliber 12",
             modelYear = 2023,
             pricePerDay = 19.99,
             imageResource = R.drawable.kids_bike_24
         ),
         Bike(
+            id = 16,
             bikeCategory = BikeCategory.KidsBike,
             electric = false,
-            brand = brands[4],
+            brandId = brands[4].id,
             brandModel = "Precaliber 14",
             modelYear = 2022,
             pricePerDay = 24.99,
             imageResource = R.drawable.kids_bike_24
         ),
         Bike(
+            id = 17,
             bikeCategory = BikeCategory.KidsBike,
             electric = false,
-            brand = brands[5],
+            brandId = brands[5].id,
             brandModel = "Precaliber 16",
             modelYear = 2023,
             pricePerDay = 29.99,
             imageResource = R.drawable.kids_bike_24
         ),
         Bike(
+            id = 18,
             bikeCategory = BikeCategory.KidsBike,
             electric = false,
-            brand = brands[6],
+            brandId = brands[6].id,
             brandModel = "Precaliber 18",
             modelYear = 2022,
             pricePerDay = 34.99,
             imageResource = R.drawable.kids_bike_24
         ),
         Bike(
+            id = 19,
             bikeCategory = BikeCategory.KidsBike,
             electric = true,
-            brand = brands[0],
+            brandId = brands[0].id,
             brandModel = "Precaliber 20",
             modelYear = 2023,
             pricePerDay = 39.99,

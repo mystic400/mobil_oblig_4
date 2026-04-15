@@ -3,7 +3,7 @@ package com.example.mobil_oblig_4.network
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "http://10.111.133.26:3000/" /*10.0.2.2 hvis på emulator*/
+private const val BASE_URL = "http://10.0.2.2:3000/" /*10.0.2.2 hvis på emulator*/
 
 object RetrofitInstance {
 

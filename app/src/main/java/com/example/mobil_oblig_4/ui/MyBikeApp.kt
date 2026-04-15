@@ -14,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mobil_oblig_4.BikeApplication
 import com.example.mobil_oblig_4.R
 import com.example.mobil_oblig_4.ui.screens.BikeSelectionScreen
 import com.example.mobil_oblig_4.ui.screens.CategoryScreen
@@ -31,9 +33,13 @@ import com.example.mobil_oblig_4.ui.screens.SummaryScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyBikeApp(
-    viewModel: BikeRentalViewModel = viewModel(factory = BikeRentalViewModel.Factory)
-) {
+fun MyBikeApp() {
+
+    val app = LocalContext.current.applicationContext as BikeApplication
+
+    val viewModel: BikeRentalViewModel = viewModel(
+        factory = BikeRentalViewModel.provideFactory(app)
+    )
     val navController = rememberNavController()
     val uiState by viewModel.uiState.collectAsState()
 

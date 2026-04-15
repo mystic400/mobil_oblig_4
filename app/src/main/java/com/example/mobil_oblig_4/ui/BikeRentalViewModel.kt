@@ -3,6 +3,7 @@ package com.example.mobil_oblig_4.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.mobil_oblig_4.BikeApplication
 import com.example.mobil_oblig_4.data.BikeRepository
 import com.example.mobil_oblig_4.model.Bike
 import com.example.mobil_oblig_4.model.BikeCategory
@@ -83,7 +84,8 @@ class BikeRentalViewModel(private val repository: BikeRepository) : ViewModel() 
     }
 
     fun setHeight(heightText: String) {
-        val height = heightText.toIntOrNull() ?: if (_uiState.value.customerSelection.isAdult) 175 else 120
+        val height =
+            heightText.toIntOrNull() ?: if (_uiState.value.customerSelection.isAdult) 175 else 120
         val updated = _uiState.value.customerSelection.copy(height = height.coerceAtLeast(50))
         viewModelScope.launch { refreshDerivedState(updated) }
     }
@@ -119,8 +121,10 @@ class BikeRentalViewModel(private val repository: BikeRepository) : ViewModel() 
 
                 val updated = _uiState.value.customerSelection.copy(
                     category = category,
-                    bikeSize = if (sizes.contains(recommended)) recommended else sizes.firstOrNull() ?: BikeSize(),
-                    bike = bikes.firstOrNull() ?: allBikesInCategory.firstOrNull() ?: _uiState.value.customerSelection.bike
+                    bikeSize = if (sizes.contains(recommended)) recommended else sizes.firstOrNull()
+                        ?: BikeSize(),
+                    bike = bikes.firstOrNull() ?: allBikesInCategory.firstOrNull()
+                    ?: _uiState.value.customerSelection.bike
                 )
 
                 refreshDerivedState(updated)
@@ -177,14 +181,16 @@ class BikeRentalViewModel(private val repository: BikeRepository) : ViewModel() 
         val finalBike = if (filteredBikes.any { it.id == selection.bike.id }) {
             filteredBikes.first { it.id == selection.bike.id }
         } else {
-            filteredBikes.firstOrNull() ?: getBikesForCategory(selection.category).firstOrNull() ?: selection.bike
+            filteredBikes.firstOrNull() ?: getBikesForCategory(selection.category).firstOrNull()
+            ?: selection.bike
         }
 
-        val finalSize = if (sizes.any { it.label == selection.bikeSize.label && it.wheelSize == selection.bikeSize.wheelSize }) {
-            selection.bikeSize
-        } else {
-            recommended
-        }
+        val finalSize =
+            if (sizes.any { it.label == selection.bikeSize.label && it.wheelSize == selection.bikeSize.wheelSize }) {
+                selection.bikeSize
+            } else {
+                recommended
+            }
 
         val fixedSelection = selection.copy(
             bike = finalBike,
@@ -271,11 +277,15 @@ class BikeRentalViewModel(private val repository: BikeRepository) : ViewModel() 
     }
 
     companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        fun provideFactory(
+            application: BikeApplication
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                val repository = NetworkBikeRepository(RetrofitInstance.api)
-                return BikeRentalViewModel(repository) as T
+                return BikeRentalViewModel(
+                    application.container.bikeRepository
+                ) as T
             }
         }
     }

@@ -16,7 +16,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Date
-
+//ViewModel får repository sendt inn som parameter.
+//
+//Den lager det ikke selv, og er derfor ikke hardkoblet.
 class BikeRentalViewModel(private val repository: BikeRepository) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BikeRentalUiState())
